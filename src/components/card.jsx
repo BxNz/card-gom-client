@@ -5,12 +5,14 @@ export default function Card({ card, onPlay, disabled }) {
 
   return (
     <motion.div
-      drag={!disabled}
-      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      drag={disabled ? false : "y"}
+      dragElastic={0.2}
+      dragMomentum={false}
       whileHover={{ scale: 1.1, y: -10 }}
       whileDrag={{ scale: 1.2, zIndex: 10 }}
       onDragEnd={(e, info) => {
-        if (info.point.y < 300) {
+        // Use drag offset so it works consistently across different screen sizes.
+        if (info.offset.y < -80) {
           onPlay(card);
         }
       }}

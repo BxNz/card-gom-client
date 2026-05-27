@@ -1,4 +1,16 @@
 export default function Table({ table }) {
+  const renderCardText = (card) => {
+    if (Array.isArray(card)) {
+      return card.map((c) => `${c.value}${c.suit}`).join(" ");
+    }
+    return `${card.value}${card.suit}`;
+  };
+
+  const isRedCard = (card) => {
+    const primary = Array.isArray(card) ? card[0] : card;
+    return primary?.suit === "♥" || primary?.suit === "♦";
+  };
+
   return (
     <div
       style={{
@@ -23,14 +35,10 @@ export default function Table({ table }) {
             justifyContent: "center",
             alignItems: "center",
             fontWeight: 700,
-            color:
-              t.card.suit === "♥" || t.card.suit === "♦"
-                ? "#f87171"
-                : "#e5e7eb",
+            color: isRedCard(t.card) ? "#f87171" : "#e5e7eb",
           }}
         >
-          {t.card.value}
-          {t.card.suit}
+          {renderCardText(t.card)}
         </div>
       ))}
     </div>
